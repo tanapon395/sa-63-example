@@ -216,7 +216,9 @@ func (ctl *UserController) UpdateUser(c *gin.Context) {
 	}
 	obj.ID = int(id)
 	u, err := ctl.client.User.
-		UpdateOne(&obj).
+		UpdateOneID(int(id)).
+		SetAge(obj.Age).
+		SetName(obj.Name).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

@@ -7,6 +7,7 @@ import (
 	"github.com/chanwit/app/controllers"
 	_ "github.com/chanwit/app/docs"
 	"github.com/chanwit/app/ent"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 	swaggerFiles "github.com/swaggo/files"
@@ -56,6 +57,13 @@ import (
 // @scope.admin Grants read and write access to administrative information
 func main() {
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS"},
+		AllowHeaders: []string{"Accept", "X-Requested-With", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "Lang"},
+	}))
+
 	client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
 	if err != nil {
 		log.Fatalf("fail to open sqlite3: %v", err)
