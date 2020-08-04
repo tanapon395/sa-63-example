@@ -105,12 +105,6 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/ent.User"
-                        },
-                        "headers": {
-                            "Token": {
-                                "type": "string",
-                                "description": "qwerty"
-                            }
                         }
                     },
                     "400": {
@@ -134,8 +128,8 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Delete a user entity by ID",
-                "operationId": "delete-user",
+                "summary": "Get a user entity by ID",
+                "operationId": "get-user",
                 "parameters": [
                     {
                         "type": "integer",
@@ -149,7 +143,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gin.H"
+                            "$ref": "#/definitions/ent.User"
                         }
                     },
                     "400": {
@@ -209,6 +203,49 @@ var doc = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a user entity by ID",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/gin.H"
                         }

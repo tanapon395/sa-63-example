@@ -12,7 +12,7 @@ import {
   Link,
 } from '@backstage/core';
 
-const WelcomePage: FC<{}> = (props: any) => {
+const WelcomePage: FC<{}> = () => {
   const profile = { givenName: 'to System Analysis and Design 63' };
 
   return (

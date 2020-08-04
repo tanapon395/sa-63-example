@@ -163,7 +163,7 @@ func (ctl *UserController) ListUser(c *gin.Context) {
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /users/{id} [get]
+// @Router /users/{id} [delete]
 func (ctl *UserController) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -216,9 +216,7 @@ func (ctl *UserController) UpdateUser(c *gin.Context) {
 	}
 	obj.ID = int(id)
 	u, err := ctl.client.User.
-		UpdateOneID(int(id)).
-		SetAge(obj.Age).
-		SetName(obj.Name).
+		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

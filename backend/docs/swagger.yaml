@@ -77,10 +77,6 @@ paths:
       responses:
         "200":
           description: OK
-          headers:
-            Token:
-              description: qwerty
-              type: string
           schema:
             $ref: '#/definitions/ent.User'
         "400":
@@ -93,7 +89,7 @@ paths:
             $ref: '#/definitions/gin.H'
       summary: Create user
   /users/{id}:
-    get:
+    delete:
       description: get user by ID
       operationId: delete-user
       parameters:
@@ -122,6 +118,35 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a user entity by ID
+    get:
+      description: get user by ID
+      operationId: get-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a user entity by ID
     put:
       consumes:
       - application/json

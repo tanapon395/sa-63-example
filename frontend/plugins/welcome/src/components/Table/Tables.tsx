@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import http from 'axios';
-
 import { makeStyles } from '@material-ui/core/styles';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { DefaultApi } from '../../api/apis';
 
 const useStyles = makeStyles({
   table: {
@@ -18,27 +16,24 @@ const useStyles = makeStyles({
   },
 });
 
-const url = 'http://localhost:8080';
-
-export default function ComponentsTable(props: any) {
+export default function ComponentsTable() {
   const classes = useStyles();
+  const api = new DefaultApi();
   const [users, setUsers] = useState(Array);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUsers = async () => {
-      const { data } = await http.get(`${url}/api/v1/users`);
-      setUsers(data);
+      const res = await api.listUser({ limit: 10, offset: 0 });
       setLoading(false);
+      setUsers(res);
     };
-
     getUsers();
   }, [loading]);
 
   const deleteUsers = async (id: number) => {
-    const { data } = await http.delete(`${url}/api/v1/users/${id}`);
-    console.log(data);
-    await setLoading(true);
+    const res = await api.deleteUser({ id: id });
+    setLoading(true);
   };
 
   return (
@@ -59,9 +54,6 @@ export default function ComponentsTable(props: any) {
               <TableCell align="center">{item.name}</TableCell>
               <TableCell align="center">{item.age}</TableCell>
               <TableCell align="center">
-                <Button variant="contained" color="primary">
-                  Edit
-                </Button>
                 <Button
                   onClick={() => {
                     deleteUsers(item.id);
